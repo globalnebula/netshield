@@ -15,7 +15,6 @@ class AIThreatDetector:
         """Analyzes request data for potential threats."""
         return self.model(request_data)
 
-# Example usage
 detector = AIThreatDetector()
 print(detector.analyze_request("SELECT * FROM users WHERE username='admin'"))
 print(detector.analyze_request("SELECT * FROM users WHERE username='user'"))
