@@ -1,0 +1,58 @@
+[
+    {
+        "name": "Hardcoded Password",
+        "pattern": "(?i)(?:password|passwd|pwd|secret)\\s*[=]\\s*['\"][^'\"]{4,100}['\"]",
+        "severity": "High",
+        "message": "Hardcoded password detected! Use environment variables or a secrets manager.",
+        "recommendation": "Use os.environ or a vault solution like HashiCorp Vault",
+        "cwe": "CWE-259"
+    },
+    {
+        "name": "Hardcoded API Key",
+        "pattern": "(?i)(?:api[-_]?key|secret[-_]?key|access[-_]?token|auth[-_]?token)\\s*[=]\\s*['\"][^'\"]{10,100}['\"]",
+        "severity": "High",
+        "message": "Hardcoded API key detected! Store credentials securely.",
+        "recommendation": "Use a secret management service (e.g., AWS Secrets Manager)",
+        "cwe": "CWE-798"
+    },
+    {
+        "name": "SQL Injection",
+        "pattern": "(?i)(?:SELECT|INSERT|DELETE|UPDATE)\\s+.*?(?:FROM|WHERE)\\s+.*?(?:['\"]\\s*\\+|%\\s*[^=])",
+        "severity": "Critical",
+        "message": "Potential SQL Injection detected! Use parameterized queries.",
+        "recommendation": "Use ORM or prepared statements (e.g., SQLAlchemy, psycopg2)",
+        "cwe": "CWE-89"
+    },
+    {
+        "name": "Unsafe Dynamic Code Execution",
+        "pattern": "(?i)\\b(?:eval|exec)\\s*\\(",
+        "severity": "Critical",
+        "message": "Dangerous dynamic code execution detected!",
+        "recommendation": "Use ast.literal_eval() for safe evaluation or avoid entirely",
+        "cwe": "CWE-95"
+    },
+    {
+        "name": "Command Injection",
+        "pattern": "(?i)(?:os\\.system|subprocess\\.(?:call|run|popen))\\s*\\(.*?(:shell\\s*=\\s*True|['\"].*?['\"]\\s*\\+)",
+        "severity": "Critical",
+        "message": "Potential command injection risk detected!",
+        "recommendation": "Use subprocess with shell=False and argument lists",
+        "cwe": "CWE-78"
+    },
+    {
+        "name": "Insecure Random Number Generation",
+        "pattern": "(?i)random\\.(?:randint|choice|random)\\s*\\(",
+        "severity": "Medium",
+        "message": "Insecure random number generator detected!",
+        "recommendation": "Use secrets module for cryptographic operations",
+        "cwe": "CWE-330"
+    },
+    {
+        "name": "Hardcoded File Path",
+        "pattern": "(?i)(?:open|read|write)\\s*\\(\\s*['\"][\\\\/][^'\"]+['\"]",
+        "severity": "Medium",
+        "message": "Hardcoded file path detected!",
+        "recommendation": "Use relative paths or configuration files",
+        "cwe": "CWE-676"
+    }
+]
