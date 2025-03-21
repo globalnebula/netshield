@@ -7,39 +7,37 @@ import time
 import sys
 
 # Configure logging for threat alerts
-logging.basicConfig
-(
+logging.basicConfig(
     filename='threats.log',
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
-THREAT_PATTERNS = 
-[
+THREAT_PATTERNS = [
     # SQL Injection
     {
         'name': 'SQL Injection',
         'pattern': r"(SELECT|INSERT|DELETE|UPDATE)\s+.*\s+FROM\s+.*\s+WHERE\s+.*=.*['\"].*['\"]",
-        'severity': 'HIGH'
+        'severity': 'ERROR'
     },
     # Cross-Site Scripting (XSS)
     {
         'name': 'XSS Attack',
         'pattern': r"<(script|iframe).*>|alert\(|onerror\s*=",
-        'severity': 'HIGH'
+        'severity': 'ERROR'
     },
     # Path Traversal
     {
         'name': 'Path Traversal',
         'pattern': r"(\.\./|\.\.\\)|(/etc/passwd|/bin/sh)",
-        'severity': 'MEDIUM'
+        'severity': 'WARNING'
     },
     # Unauthorized Access (401/403 status codes)
     {
         'name': 'Unauthorized Access',
         'pattern': r'\s403\s|\s401\s',
-        'severity': 'MEDIUM'
+        'severity': 'WARNING'
     },
     # Sensitive Data Exposure (Credit Cards/API Keys)
     {
@@ -51,7 +49,7 @@ THREAT_PATTERNS =
     {
         'name': 'Command Injection',
         'pattern': r";\s*(rm|wget|curl)|\\\|\s*(\||<)",
-        'severity': 'HIGH'
+        'severity': 'ERROR'
     }
 ]
 
@@ -158,7 +156,7 @@ def main():
     parser.add_argument('--interval', type=int, default=10,
                       help='Monitoring interval in seconds (default: 10)')
     parser.add_argument('--severity', type=str,
-                      choices=['CRITICAL', 'HIGH', 'MEDIUM', 'INFO'],
+                      choices=['CRITICAL', 'ERROR', 'WARNING', 'INFO'],
                       help='Filter logs by severity level')
     
     args = parser.parse_args()
@@ -176,25 +174,13 @@ def main():
 if __name__ == "__main__":
     main()
 
-
 # Detects 6+ threat types using regex patterns
 
 # To run use these commands
 
-# Start Monitoring (Real-time):
-# python monitor.py --monitor /var/logs/api.log --interval 5
+# Start monitoring (use correct --log argument)
+# Check every 1 second
+# python monitor.py --monitor --log /var/logs/api.log --interval 1
 
-# View Threat Logs:
+# View critical threat logs
 # python monitor.py --view-logs --severity CRITICAL
-
-# Severity Classification
-# 'severity': 'CRITICAL'  # HIGH/MEDIUM/CRITICAL
-# Dictates logging level and alert priority
-
-#Persistent Logging
-#logging.basicConfig(filename='threats.log')  # All alerts stored here
-#Automated Reporting
-
-#generate_report()  # Creates timestamped TXT reports
-#Continuous Monitoring
-#continuous_monitoring()  # Tracks file position for real-time detection
